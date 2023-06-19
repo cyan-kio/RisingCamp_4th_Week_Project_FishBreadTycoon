@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    tools:context=".game.GameActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:layout_marginBottom="6dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_game_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/img_roof">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_game_timer"
+                android:layout_width="75dp"
+                android:layout_height="35dp"
+                android:background="@drawable/drawable_timer_frame"
+                android:text="03:00"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_revenue"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:background="@drawable/drawable_timer_frame"
+                android:text="0원"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_customer"
+                android:layout_width="90dp"
+                android:layout_height="110dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_order"
+                android:background="@drawable/img_boy_one"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:layout_marginEnd="25dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/drawable_order_frame"
+                android:text="붕어빵 5개 주세요!"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="@id/iv_customer"
+                app:layout_constraintBottom_toBottomOf="@id/iv_customer"
+                android:layout_marginTop="5dp"
+                android:padding="25dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/iv_customer"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="@drawable/drawable_game_frame"
+        android:padding="18dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_one"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_four"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_two"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_two"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_five"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_three"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_one"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_three"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_six"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_two"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_four"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_seven"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_five"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_one" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_five"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_eight"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_six"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_four"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_two" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_six"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_nine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_five"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_three" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_seven"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_ten"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_eight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_four" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_eight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_eleven"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_nine"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_seven"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_five" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_nine"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toTopOf="@id/imgview_frame_dough_twelve"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_eight"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_six" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_ten"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_eleven"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_seven" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_eleven"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgview_frame_dough_twelve"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_ten"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_eight" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgview_frame_dough_twelve"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/drawable_game_frame_inside"
+            android:src="@drawable/img_dough_frame"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imgview_frame_dough_eleven"
+            app:layout_constraintTop_toBottomOf="@id/imgview_frame_dough_nine" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#32343A">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_count_baked"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:background="@drawable/drawable_timer_frame"
+            android:text="판매한 붕어빵: 0개"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="18dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
