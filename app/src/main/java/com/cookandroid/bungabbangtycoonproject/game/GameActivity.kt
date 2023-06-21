@@ -1,7 +1,5 @@
 package com.cookandroid.bungabbangtycoonproject.game
 
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.*
 import android.util.Log
@@ -34,7 +32,6 @@ class GameActivity : AppCompatActivity() {
     val randomCustomer = listOf(R.drawable.img_boy_one, R.drawable.img_boy_two, R.drawable.img_boy_three, R.drawable.img_girl_one, R.drawable.img_girl_two, R.drawable.img_girl_three)
     private lateinit var frames: Array<AppCompatImageView>
     private lateinit var handler: Handler
-    private var instance: RankDatabase? = null
 
     val orderTimerThread = OrderTimerThread()
 
@@ -65,24 +62,9 @@ class GameActivity : AppCompatActivity() {
         )
     }
 
-    @Synchronized
-    fun getInstance(context: Context): RankDatabase? {
-        if(instance == null) {
-            synchronized(RankDatabase::class){
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    RankDatabase::class.java,
-                    "rank"
-                ).build()
-            }
-        }
-        return instance
-    }
-
     override fun onResume() {
         super.onResume()
         val orderTimerThread = OrderTimerThread()
-        val orderBreakThread = OrderBreakThread()
 
         frames.forEachIndexed { index, frame ->
             val well = WellTimerThread(frame, index)
@@ -209,31 +191,31 @@ class GameActivity : AppCompatActivity() {
         override fun onFinish() {
             val inputName = EditText(this@GameActivity)
             inputName.gravity = Gravity.CENTER
-            var userName = ""
+            var userName: String
             val builder = AlertDialog.Builder(this@GameActivity)
-                .setTitle("닉네임을 입력하세요.")
-                .setView(inputName)
-                .setPositiveButton("확인",
-                DialogInterface.OnClickListener { dialog, which ->
-                    if(inputName.text.toString() == null || inputName.text.toString().trim().isEmpty()) {
-                        userName = "NON"
-                    } else {
-                        userName = inputName.text.toString()
-                    }
-                    val newRecord = Rank(userName, revenue)
-                    Thread {
-                        val db = Room.databaseBuilder(
-                            applicationContext,
-                            RankDatabase::class.java,
-                            "rank"
-                        ).build()
-                        db.rankDao().insert(newRecord)
-                        Log.d("THREADCHECK","현재 스레드 : ${Thread.currentThread()}")
-                    }.start()
+                builder.setTitle("닉네임을 입력하세요.")
+                builder.setView(inputName)
+                builder.setPositiveButton("확인",
+                    { dialog, which ->
+                        if(inputName.text == null || inputName.text.toString().trim().isEmpty()) {
+                            userName = "NON"
+                        } else {
+                            userName = inputName.text.toString()
+                        }
+                        val newRecord = Rank(userName, revenue)
+                        Thread {
+                            val db = Room.databaseBuilder(
+                                applicationContext,
+                                RankDatabase::class.java,
+                                "rank"
+                            ).build()
+                            db.rankDao().insert(newRecord)
+                            Log.d("THREADCHECK","현재 스레드 : ${Thread.currentThread()}")
+                        }.start()
 
-                    startActivity(Intent(this@GameActivity, RankActivity::class.java))
-                    finish()
-                })
+                        startActivity(Intent(this@GameActivity, RankActivity::class.java))
+                        finish()
+                    })
                 .setCancelable(false)
                 builder.create()
                 builder.show()
