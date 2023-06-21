@@ -1,16 +1,25 @@
 package com.cookandroid.bungabbangtycoonproject.game
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.*
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.cookandroid.bungabbangtycoonproject.R
 import com.cookandroid.bungabbangtycoonproject.databinding.ActivityGameBinding
+import com.cookandroid.bungabbangtycoonproject.rank.room.Rank
 import com.cookandroid.bungabbangtycoonproject.rank.RankActivity
+import com.cookandroid.bungabbangtycoonproject.rank.room.RankDatabase
+import java.text.DecimalFormat
 
 class GameActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGameBinding
@@ -25,6 +34,7 @@ class GameActivity : AppCompatActivity() {
     val randomCustomer = listOf(R.drawable.img_boy_one, R.drawable.img_boy_two, R.drawable.img_boy_three, R.drawable.img_girl_one, R.drawable.img_girl_two, R.drawable.img_girl_three)
     private lateinit var frames: Array<AppCompatImageView>
     private lateinit var handler: Handler
+    private var instance: RankDatabase? = null
 
     val orderTimerThread = OrderTimerThread()
 
@@ -53,6 +63,20 @@ class GameActivity : AppCompatActivity() {
             binding.imgviewFrameDoughEleven,
             binding.imgviewFrameDoughTwelve
         )
+    }
+
+    @Synchronized
+    fun getInstance(context: Context): RankDatabase? {
+        if(instance == null) {
+            synchronized(RankDatabase::class){
+                instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    RankDatabase::class.java,
+                    "rank"
+                ).build()
+            }
+        }
+        return instance
     }
 
     override fun onResume() {
@@ -150,7 +174,7 @@ class GameActivity : AppCompatActivity() {
                 count_redbean -= orderBaked
                 binding.tvCountBaked.text = "구워진 붕어빵: " + count_redbean + "개"
                 revenue += orderBaked * 500
-                binding.tvRevenue.text = revenue.toString() + "원"
+                binding.tvRevenue.text = DecimalFormat("#,###").format(revenue) + "원"
             }
         }
     }
@@ -183,9 +207,40 @@ class GameActivity : AppCompatActivity() {
         }
 
         override fun onFinish() {
-            startActivity(Intent(this@GameActivity, RankActivity::class.java))
+            val inputName = EditText(this@GameActivity)
+            inputName.gravity = Gravity.CENTER
+            var userName = ""
+            val builder = AlertDialog.Builder(this@GameActivity)
+                .setTitle("닉네임을 입력하세요.")
+                .setView(inputName)
+                .setPositiveButton("확인",
+                DialogInterface.OnClickListener { dialog, which ->
+                    if(inputName.text.toString() == null || inputName.text.toString().trim().isEmpty()) {
+                        userName = "NON"
+                    } else {
+                        userName = inputName.text.toString()
+                    }
+                    val newRecord = Rank(userName, revenue)
+                    Thread {
+                        val db = Room.databaseBuilder(
+                            applicationContext,
+                            RankDatabase::class.java,
+                            "rank"
+                        ).build()
+                        db.rankDao().insert(newRecord)
+                        Log.d("THREADCHECK","현재 스레드 : ${Thread.currentThread()}")
+                    }.start()
+
+                    startActivity(Intent(this@GameActivity, RankActivity::class.java))
+                    finish()
+                })
+                .setCancelable(false)
+                builder.create()
+                builder.show()
         }
     }
+
+
 
     fun order() {
         orderBaked = range.random()
@@ -223,23 +278,6 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    inner class BakeTimerThread(val view: AppCompatImageView, val index: Int, val id: Int) : CountDownTimer(3000, 3000) {
-        override fun onTick(millisUntilFinished: Long) {
-
-        }
-        override fun onFinish() {
-            view.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    id,
-                    theme
-                )
-            )
-            stateList[index] = 3
-            BakeTimerThread(view, index, R.drawable.img_dough_flip).start()
-        }
-    }
-
     inner class RareTimerThread(val view: AppCompatImageView, val index: Int, val well: WellTimerThread) : CountDownTimer(3000, 3000) {
         override fun onTick(millisUntilFinished: Long) {
 
@@ -272,71 +310,6 @@ class GameActivity : AppCompatActivity() {
             )
             stateList[index] = 5
             Log.d("STATETEST", "stateList [$index] : " + stateList[index].toString())
-        }
-    }
-
-    inner class BakeTimerThread2(val view: AppCompatImageView, val index: Int) : CountDownTimer(120000, 1000) {
-        override fun onTick(millisUntilFinished: Long) {
-            if (millisUntilFinished.toInt() in 117001..120000) {
-                view.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.img_dough_flip,
-                        theme
-                    )
-                )
-            }
-            else if (millisUntilFinished.toInt() in 114001..117000) {
-                view.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.img_dough_rare,
-                        theme
-                    )
-                )
-                view.setOnClickListener {
-                    cancel()
-                    onFinish()
-                }
-            }
-            else if (millisUntilFinished.toInt() in 110001..114000) {
-                view.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.img_dough_well,
-                        theme
-                    )
-                )
-                view.setOnClickListener {
-                    ++count_redbean
-                    binding.tvCountBaked.text = "판매한 붕어빵: " + count_redbean + "개"
-                    cancel()
-                    onFinish()
-                }
-            }
-            else if (millisUntilFinished.toInt() in 0..110000) {
-                view.setImageDrawable(
-                    ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.img_dough_burn,
-                        theme
-                    )
-                )
-                view.setOnClickListener {
-                    cancel()
-                    onFinish()
-                }
-            }
-        }
-        override fun onFinish() {
-            view.setImageDrawable(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    R.drawable.img_dough_frame,
-                    theme
-                )
-            )
-            stateList[index] = 0
         }
     }
 }

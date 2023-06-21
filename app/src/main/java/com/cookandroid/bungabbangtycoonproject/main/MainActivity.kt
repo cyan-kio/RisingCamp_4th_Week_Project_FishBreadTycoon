@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         binding.btnStartGame.setOnClickListener {
             startActivity(Intent(this, GameActivity::class.java))
+            finish()
         }
 
         binding.btnHowToPlay.setOnClickListener {
