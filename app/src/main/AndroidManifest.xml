@@ -4,10 +4,9 @@
     package="com.cookandroid.bungabbangtycoonproject">
 
     <application
-        android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/bungabbang_launch"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/bungabbang_launch_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BungABBangTycoonProject"
         tools:targetApi="31">

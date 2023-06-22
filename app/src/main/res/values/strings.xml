@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BungABBangTycoonProject</string>
+    <string name="app_name">붕어빵 타이쿤: 일확천금</string>
     <string name="string_timer">%1$02d:%2$02d</string>
     <string name="count_baked">팥: %1$d개, 슈크림: %2$d개</string>
 </resources>

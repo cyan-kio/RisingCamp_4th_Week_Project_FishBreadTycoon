@@ -27,6 +27,8 @@ class RankAdapter: RecyclerView.Adapter<RankAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return recordList.size
+        var max: Int = recordList.size
+        if(max > 10) max = 10
+        return max
     }
 }

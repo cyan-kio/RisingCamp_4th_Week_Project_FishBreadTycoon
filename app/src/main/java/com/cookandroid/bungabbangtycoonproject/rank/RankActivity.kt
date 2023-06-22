@@ -1,5 +1,6 @@
 package com.cookandroid.bungabbangtycoonproject.rank
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +9,7 @@ import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.cookandroid.bungabbangtycoonproject.R
 import com.cookandroid.bungabbangtycoonproject.databinding.ActivityRankBinding
-import com.cookandroid.bungabbangtycoonproject.makeStatusBarTransparent
+import com.cookandroid.bungabbangtycoonproject.main.MainActivity
 import com.cookandroid.bungabbangtycoonproject.rank.adapter.RankAdapter
 import com.cookandroid.bungabbangtycoonproject.rank.room.RankDatabase
 
@@ -35,5 +36,10 @@ class RankActivity : AppCompatActivity() {
 
         binding.recyclerRank.adapter = adapter
         binding.recyclerRank.layoutManager = LinearLayoutManager(this)
+
+        binding.tvReplay.setOnClickListener {
+            startActivity(Intent(this@RankActivity, MainActivity::class.java))
+            finish()
+        }
     }
 }

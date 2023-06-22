@@ -193,32 +193,33 @@ class GameActivity : AppCompatActivity() {
             inputName.gravity = Gravity.CENTER
             var userName: String
             val builder = AlertDialog.Builder(this@GameActivity)
-                builder.setTitle("닉네임을 입력하세요.")
-                builder.setView(inputName)
-                builder.setPositiveButton("확인",
-                    { dialog, which ->
-                        if(inputName.text == null || inputName.text.toString().trim().isEmpty()) {
-                            userName = "NON"
-                        } else {
-                            userName = inputName.text.toString()
-                        }
-                        val newRecord = Rank(userName, revenue)
-                        Thread {
-                            val db = Room.databaseBuilder(
-                                applicationContext,
-                                RankDatabase::class.java,
-                                "rank"
-                            ).build()
-                            db.rankDao().insert(newRecord)
-                            Log.d("THREADCHECK","현재 스레드 : ${Thread.currentThread()}")
-                        }.start()
+            builder.setTitle("게임 종료")
+            builder.setMessage("\n닉네임을 입력해주세요\n")
+            builder.setView(inputName)
+            builder.setPositiveButton("확인",
+                { dialog, which ->
+                    if(inputName.text == null || inputName.text.toString().trim().isEmpty()) {
+                        userName = "NON"
+                    } else {
+                        userName = inputName.text.toString()
+                    }
+                    val newRecord = Rank(userName, revenue)
+                    Thread {
+                        val db = Room.databaseBuilder(
+                            applicationContext,
+                            RankDatabase::class.java,
+                            "rank"
+                        ).build()
+                        db.rankDao().insert(newRecord)
+                        Log.d("THREADCHECK","현재 스레드 : ${Thread.currentThread()}")
+                    }.start()
 
-                        startActivity(Intent(this@GameActivity, RankActivity::class.java))
-                        finish()
-                    })
-                .setCancelable(false)
-                builder.create()
-                builder.show()
+                    startActivity(Intent(this@GameActivity, RankActivity::class.java))
+                    finish()
+                })
+            .setCancelable(false)
+            builder.create()
+            builder.show()
         }
     }
 
